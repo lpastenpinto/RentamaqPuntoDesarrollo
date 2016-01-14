@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="datosReporteHistorial" targetNamespace="http://tempuri.org/datosReporteHistorial.xsd" xmlns:mstns="http://tempuri.org/datosReporteHistorial.xsd" xmlns="http://tempuri.org/datosReporteHistorial.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="datosReporteHistorial" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="datosReporteHistorial" msprop:Generator_UserDSName="datosReporteHistorial">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="datosReporteHistorial" msprop:Generator_TableClassName="datosReporteHistorialDataTable" msprop:Generator_TableVarName="tabledatosReporteHistorial" msprop:Generator_TablePropName="_datosReporteHistorial" msprop:Generator_RowDeletingName="datosReporteHistorialRowDeleting" msprop:Generator_RowChangingName="datosReporteHistorialRowChanging" msprop:Generator_RowEvHandlerName="datosReporteHistorialRowChangeEventHandler" msprop:Generator_RowDeletedName="datosReporteHistorialRowDeleted" msprop:Generator_UserTableName="datosReporteHistorial" msprop:Generator_RowChangedName="datosReporteHistorialRowChanged" msprop:Generator_RowEvArgName="datosReporteHistorialRowChangeEvent" msprop:Generator_RowClassName="datosReporteHistorialRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="equipo" msprop:Generator_ColumnVarNameInTable="columnequipo" msprop:Generator_ColumnPropNameInRow="equipo" msprop:Generator_ColumnPropNameInTable="equipoColumn" msprop:Generator_UserColumnName="equipo" type="xs:string" minOccurs="0" />
+              <xs:element name="fechaInicio" msprop:Generator_ColumnVarNameInTable="columnfechaInicio" msprop:Generator_ColumnPropNameInRow="fechaInicio" msprop:Generator_ColumnPropNameInTable="fechaInicioColumn" msprop:Generator_UserColumnName="fechaInicio" type="xs:string" minOccurs="0" />
+              <xs:element name="fechaTermino" msprop:Generator_ColumnVarNameInTable="columnfechaTermino" msprop:Generator_ColumnPropNameInRow="fechaTermino" msprop:Generator_ColumnPropNameInTable="fechaTerminoColumn" msprop:Generator_UserColumnName="fechaTermino" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,128 @@
+﻿@model IEnumerable<RentaMaq.Models.Producto>
+
+@{
+    ViewBag.Title = "Productos Sin Precio";
+    double valorizacionTotal = 0;
+    bool tienePermiso1 = false;
+    bool tienePermiso9 = false;
+    int cantidadTotalProductos = Model.Count();
+    if (Session["ID"] != null && RentaMaq.Models.roles.tienePermiso(1, int.Parse(Session["ID"].ToString())))
+    {
+        tienePermiso1 = true;
+    }
+
+    if (Session["ID"] != null && RentaMaq.Models.roles.tienePermiso(9, int.Parse(Session["ID"].ToString())))
+    {
+        tienePermiso9 = true;
+    }
+}
+
+<h2>Productos Sin Precio</h2>
+<h3>Total:@cantidadTotalProductos</h3>
+
+<hr />
+<table class="table">
+    <tr>
+        <th>
+            N° de Parte
+        </th>
+        <th>
+            Descripcion
+        </th>
+        <th>
+            Codigo Interno
+        </th>
+        <th>
+            Precio Unitario
+        </th>
+        <th>
+            Stock Actual
+        </th>
+        <th>
+            Bodega
+        </th>
+        @if (Session["ID"] != null && RentaMaq.Models.roles.tienePermiso(9, int.Parse(Session["ID"].ToString())))
+        {
+            <th>
+                Valorizacion
+            </th>
+        }
+        <th></th>
+    </tr>
+    <tbody id="contenedor">
+        @{
+            System.Collections.Hashtable bodegas = new System.Collections.Hashtable();
+            List<RentaMaq.Models.Bodegas> listaBodegas = new RentaMaq.DAL.Context().bodegas.ToList();
+
+            foreach (RentaMaq.Models.Bodegas bodega in listaBodegas)
+            {
+                bodegas.Add(bodega.BodegasID, bodega);
+            }
+        }
+
+        @foreach (var item in Model)
+        {
+            
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.numeroDeParte)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.codigo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.precioUnitario)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.stockActual)
+                </td>
+                <td>
+                    @(((RentaMaq.Models.Bodegas)bodegas[item.idBodega]).nombre)
+                </td>
+                @if (Session["ID"] != null && RentaMaq.Models.roles.tienePermiso(9, int.Parse(Session["ID"].ToString())))
+                {
+                    double valActual = item.stockActual * item.precioUnitario;
+                    if (item.stockActual > 0)
+                    {
+                        valorizacionTotal = valorizacionTotal + valActual;
+                        <td>
+                            @RentaMaq.Models.Formateador.valoresPesos(Convert.ToInt32(item.precioUnitario * item.stockActual))
+                    </td>
+
+                    }
+                    else
+                    {
+                        <td>
+                            $0
+                        </td>
+                    }
+
+                }
+                <td>
+                    @if (tienePermiso1)
+                    {
+                        <text>
+                            @Html.ActionLink("Editar", "Edit", new { id = item.ProductoID }) |
+                            @Html.ActionLink("Detalle", "Details", new { id = item.ProductoID }) |
+                            @Html.ActionLink("Eliminar", "Delete", new { id = item.ProductoID })
+                        </text>
+                    }
+                    else
+                    {
+                        <text>
+                            @Html.ActionLink("Detalle", "Details", new { id = item.ProductoID })
+                        </text>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="clearfix"></div>
+
+
+

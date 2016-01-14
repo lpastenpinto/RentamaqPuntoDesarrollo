@@ -1,0 +1,127 @@
+﻿@model IEnumerable<RentaMaq.Models.ordenDeTrabajoGeneral>
+
+@{
+    ViewBag.Title = "Ordenes de Trabajo";
+}
+
+<h2>Ordenes de Trabajo</h2>
+<div class="col-md-8">
+    <br />
+    <div class="col-md-4">
+        <h4><small>Buscador:</small></h4>
+    </div>    
+    <div class="col-md-4">
+        <input type="text" id="numeroFolio" name="numeroFolio" class="form-control"/>
+    </div>
+    <div class="col-md-4">
+        <input class="form-control" id="Boton" value="Buscar" type="button" />
+    </div>
+</div>
+<div class="clearfix"></div>
+
+<p>
+    @Html.ActionLink("Crear Nueva", "Create")
+</p>
+
+<div class="table-responsive">
+    <table class="table">
+        <tr>
+            <th>
+                Numero de Folio
+            </th>
+            <th>
+                Fecha OT Abierta
+            </th>
+            <th>
+                Fecha OT Cerrada
+            </th>
+            <th>
+                Patente
+            </th>
+            <th>
+                Tipo de Equipo
+            </th>
+
+            <th>
+                Tipo de Mantenimiento
+            </th>
+            <th>
+                Fecha Trabajo Pendiente
+            </th>
+            <th></th>
+        </tr>
+        <tbody id="contenedor">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.numeroFolio)
+                    </td>
+                    <td>
+                        @RentaMaq.Models.Formateador.fechaCompletaToString(item.fechaOTAbierta)
+
+                    </td>
+                    <td>
+                        @RentaMaq.Models.Formateador.fechaCompletaToString(item.fechaOTCerrada)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.patente)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.tipoEquipo)
+                    </td>
+                    <td>
+                        @RentaMaq.Models.Formateador.fechaCompletaToString(item.fechaTrabajosPendientesPorRealizar)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Editar", "Edit", new { id = item.ordenDeTrabajoGeneralID }) |
+                        @Html.ActionLink("Detalle", "Details", new { id = item.ordenDeTrabajoGeneralID }) |
+                        @Html.ActionLink("Borrar", "Delete", new { id = item.ordenDeTrabajoGeneralID })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+    @section Scripts {
+        <script>
+            $(document).ready(function () {
+                $("#Boton").click(function () {
+                    var numeroFolio = $("#numeroFolio").val();
+                    
+                    if (numeroFolio == "") {
+                        alert("Debe ingresar Numero de Folio");
+                    } else {
+                        var div = $("#contenedor");
+                        $.getJSON('/ordenDeTrabajoGeneral/Filtrar', { "numeroFolio": numeroFolio },
+                            function (data) {
+                                div.empty();
+                                $.each(data, function (i, item) {                                                                                                                                                                       
+                                    div.append("<tr><td>" + item.numeroFolio + "</td><td>" + formatoFechaJson(item.fechaOTAbierta) + "</td><td>" + formatoFechaJson(item.fechaOTCerrada) + "</td><td>" + item.patente + "</td><td>" + item.tipoEquipo + "</td><td>" + formatoFechaJson(item.fechaTrabajosPendientesPorRealizar) + "</td>" +
+                                             "<td><a href='/ordenDeTrabajoGeneral/Edit/" + item.ordenDeTrabajoGeneralID + "'>Editar</a>|<a href='/ordenDeTrabajoGeneral/Details/" + item.ordenDeTrabajoGeneralID + "'>Detalle</a>|<a href='/ordenDeTrabajoGeneral/Delete/" + item.ordenDeTrabajoGeneralID + "'>Eliminar</a></td></tr>");
+
+                                });
+                            });
+                    }
+                });
+            });
+
+            function formatoFechaJson(entrada) {
+                var dateString = entrada.substr(6);
+                var currentTime = new Date(parseInt(dateString));
+
+                var newDate = new Date(currentTime);
+                newDate.setDate(newDate.getDate() + 1);
+
+                var month = newDate.getMonth() + 1;
+                var day = newDate.getDate();
+                var year = newDate.getFullYear();
+                var date = day + "/" + month + "/" + year;
+
+                if (date == "1/1/2000") {
+                    return "";
+                }
+                return date;
+            }
+        </script>
+    }

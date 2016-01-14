@@ -1,0 +1,89 @@
+﻿@model List<RentaMaq.Models.hojaRutaMantenedores>
+@*
+    se envían las IDs de equipos con lubricaciones pendientes
+*@
+
+@{
+    ViewBag.Title = "Editar hoja de ruta de mantenedores";
+}
+
+<h2>Hoja de Ruta de Mantenedores</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Datos:</h4>
+        <hr />
+
+        @{
+    string FECHA = Model[0].fecha.Day + " /" + Model[0].fecha.Month + "/" + Model[0].fecha.Year;
+        }
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => new RentaMaq.Models.hojaRutaMantenedores().fecha, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <input class="form-control fecha" id="fecha" name="fecha"
+                       data-val-date="Ingrese por favor una fecha." data-val-required="El campo fecha es obligatorio."
+                       data-date-format="DD/MM/YYYY" pattern="[0-9][0-9]/[0-9][0-9]/[0-9][0-9][0-9][0-9]"
+                       type="text" value="@FECHA" required readonly />
+            </div>
+
+            @Html.LabelFor(model => new RentaMaq.Models.hojaRutaMantenedores().numero, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <input class="form-control" type="number" name="numero" id="numero" value="@Model[0].numero" readonly />
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => new RentaMaq.Models.hojaRutaMantenedores().nombreMantenedor, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <textarea class="form-control" id="nombreMantenedor" name="nombreMantenedor" rows="2" style="max-width:93% ;width:93% !important" placeholder="Nombre mantenedor(es)" required readonly>@Model[0].nombreMantenedor</textarea>
+            </div>
+        </div>
+        <hr />
+
+        <div class="col-sm-12" id="DivDetalles">
+            <h4>Detalle:</h4>
+            <div class="table-responsive">
+                <table class="table table-condensed" id="tableItems">
+                    <thead>
+                        <tr>
+                            <th>Equipo</th>
+                            <th>Lugar</th>
+                            <th>Horómetro Anterior Lubricación</th>
+                            <th>Horómetro Actual</th>
+                            <th class="col-md-5">Trabajo Realizado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (RentaMaq.Models.hojaRutaMantenedores hojaRuta in Model)
+                        {
+                            <tr id="filaDetalle">
+                                @{
+                                    RentaMaq.Models.equipos Equipo = RentaMaq.Models.equipos.Obtener(hojaRuta.equipoID);
+                                }
+                                <td>
+                                    @(Equipo.numeroAFI + " - " + Equipo.ModeloID.nombreModelo + "/" + @Equipo.ModeloID.MarcaID.NombreMarca)
+                                </td>
+                                <td>@hojaRuta.lugar</td>
+                                <td>
+                                    @RentaMaq.Models.hojaRutaMantenedores.obtenerHorometroAnteriorLubricacion(hojaRuta.equipoID, hojaRuta.fecha)
+                                </td>
+                                <td>@hojaRuta.horometro</td>
+                                <td>@hojaRuta.trabajoRealizado</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="clearfix"></div>
+        <div class="modal-footer">
+            @Html.ActionLink("Volver", "Index")
+        </div>
+    </div>
+}

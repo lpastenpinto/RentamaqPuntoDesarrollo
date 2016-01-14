@@ -1,0 +1,139 @@
+﻿@model IEnumerable<RentaMaq.Models.costosEquipos>
+
+@{
+    ViewBag.Title = "Index";
+    int AnioActual = ViewBag.AnioActual;
+    int AnioEscogio = ViewBag.AnioEscogio;
+    int Anio = ViewBag.Anio;
+    int Mes = ViewBag.Mes;
+}
+
+
+<div class="col-md-4">
+    <h3>Costos VS Horas de Equipos</h3>
+</div>
+
+<div class="col-md-8">
+    <div class="col-md-12">
+        <h4>Filtros:</h4>
+    </div>
+    <div class="col-md-3">
+        <label class="control-label">Año:</label>
+        <select class="form-control" name="anio" id="anio">
+            <option value="@ViewBag.AnioActual" @if(AnioActual==AnioEscogio) { <text> selected </text> }>@ViewBag.AnioActual</option>
+            <option value="@ViewBag.Anio" @if(Anio==AnioEscogio) { <text> selected </text> } >@ViewBag.Anio</option>
+        </select>
+
+    </div>
+    <div class="col-md-3">
+        <label class="control-label">Mes:</label>
+        <select class="form-control" name="mes" id="mes">
+            <option value="1" @if(Mes==1){<text> selected </text>}>1</option>
+            <option value="2" @if(Mes==2) { <text> selected </text> }>2</option>
+            <option value="3" @if(Mes==3) { <text> selected </text> }>3</option>
+            <option value="4" @if(Mes==4) { <text> selected </text> }>4</option>
+            <option value="5" @if(Mes==5) { <text> selected </text> }>5</option>
+            <option value="6" @if(Mes==6) { <text> selected </text> }>6</option>
+            <option value="7" @if(Mes==7) { <text> selected </text> }>7</option>
+            <option value="8" @if(Mes==8) { <text> selected </text> }>8</option>
+            <option value="9" @if(Mes==9) { <text> selected </text> }>9</option>
+            <option value="10" @if(Mes==10) { <text> selected </text> }>10</option>
+            <option value="11" @if(Mes==11) { <text> selected </text> }>11</option>
+            <option value="12" @if(Mes==12) { <text> selected </text> }>12</option>
+            
+        </select>
+    </div>    
+    <div class="col-md-3">
+        <br />
+        <input class="btn btn-lg btn-default btn-block" id="Boton" value="Buscar" type="button" />
+    </div>
+</div>
+<div class="clearfix"></div>
+
+<div class="table-responsive">
+    <table class="table">
+        <tr>
+            <th>
+               Equipo
+            </th>
+            <th>
+                Costos Totales
+            </th> 
+            <th>
+                Horas/Kilometros Trabajadas
+            </th>          
+            <th>
+                Costo por Hora Trabajada
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.afiEquipo
+                </td>
+                <td>
+                    $@item.costosTotalesActivos
+                </td>
+                <td>
+                    @if (item.cantidadHoras>0) { 
+                        <text>
+                            @item.cantidadHoras Hrs
+                        </text>
+                    }else{
+                        <text>
+                            @item.cantidadKilometros Kms
+                        </text>
+                    }
+                    
+                </td>
+                @if((item.cantidadHoras!=0 || item.cantidadKilometros!=0) && item.costosTotalesActivos!=0){
+                    <td>
+                        $@System.Math.Floor(item.resultadoIndicador)
+                    </td>
+                }
+                else if (item.costosTotalesActivos == 0)
+                {
+                    <td>
+                        0
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        Indeterminado
+                    </td>
+                }                
+                <td>@Html.ActionLink("Detalle", "costosActivosDetalle", new { id = item.idEquipo, anio = AnioEscogio , mes=Mes}) </td>
+            </tr>
+        }
+    </table>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Styles.Render("~/Content/bootstrap-datetimepicker.css")
+    @Scripts.Render("~/Scripts/datetimepicker/moment.js")
+    @Scripts.Render("~/Scripts/datetimepicker/bootstrap-datetimepicker.js")
+  
+    <link href="~/amcharts/plugins/export/export.css" rel="stylesheet" type="text/css">
+    <script>
+            $(document).ready(function () {
+                $(".fecha").datetimepicker({
+                    viewMode: 'days',
+                    format: 'DD/MM/YYYY'
+                });
+
+
+                $("#Boton").click(function () {
+                    var mes = $("#mes").val();
+                    var anio = $("#anio").val();                                     
+                    ruta = "/reporteMensual/costosActivos?anio=" + anio + "&mes=" + mes ;
+                    window.location.href = ruta
+                    
+                });
+            });
+    </script>
+}

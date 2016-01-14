@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="RegistroHMKM" targetNamespace="http://tempuri.org/RegistroHMKM.xsd" xmlns:mstns="http://tempuri.org/RegistroHMKM.xsd" xmlns="http://tempuri.org/RegistroHMKM.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="RegistroHMKM" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="RegistroHMKM" msprop:Generator_UserDSName="RegistroHMKM">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="ReportHMKM" msprop:Generator_TableClassName="ReportHMKMDataTable" msprop:Generator_TableVarName="tableReportHMKM" msprop:Generator_TablePropName="ReportHMKM" msprop:Generator_RowDeletingName="ReportHMKMRowDeleting" msprop:Generator_RowChangingName="ReportHMKMRowChanging" msprop:Generator_RowEvHandlerName="ReportHMKMRowChangeEventHandler" msprop:Generator_RowDeletedName="ReportHMKMRowDeleted" msprop:Generator_UserTableName="ReportHMKM" msprop:Generator_RowChangedName="ReportHMKMRowChanged" msprop:Generator_RowEvArgName="ReportHMKMRowChangeEvent" msprop:Generator_RowClassName="ReportHMKMRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="equipoID" msprop:Generator_ColumnVarNameInTable="columnequipoID" msprop:Generator_ColumnPropNameInRow="equipoID" msprop:Generator_ColumnPropNameInTable="equipoIDColumn" msprop:Generator_UserColumnName="equipoID" type="xs:string" minOccurs="0" />
+              <xs:element name="kilometraje" msprop:Generator_ColumnVarNameInTable="columnkilometraje" msprop:Generator_ColumnPropNameInRow="kilometraje" msprop:Generator_ColumnPropNameInTable="kilometrajeColumn" msprop:Generator_UserColumnName="kilometraje" type="xs:string" minOccurs="0" />
+              <xs:element name="horometro" msprop:Generator_ColumnVarNameInTable="columnhorometro" msprop:Generator_ColumnPropNameInRow="horometro" msprop:Generator_ColumnPropNameInTable="horometroColumn" msprop:Generator_UserColumnName="horometro" type="xs:string" minOccurs="0" />
+              <xs:element name="fecha" msprop:Generator_ColumnVarNameInTable="columnfecha" msprop:Generator_ColumnPropNameInRow="fecha" msprop:Generator_ColumnPropNameInTable="fechaColumn" msprop:Generator_UserColumnName="fecha" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

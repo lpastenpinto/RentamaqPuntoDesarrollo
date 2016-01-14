@@ -1,0 +1,48 @@
+﻿@model List<int>
+@{
+    ViewBag.Title = "Problemas";
+
+    List<RentaMaq.Models.equipos> Equipos = new List<RentaMaq.Models.equipos>();
+    RentaMaq.DAL.Context db = new RentaMaq.DAL.Context();
+
+    foreach (int ID in Model)     
+    {
+        Equipos.Add(db.Equipos.Find(ID));
+    }
+
+    Equipos = Equipos.OrderBy(s => s.numeroAFI).ToList();
+    
+    DateTime fecha = DateTime.Now;
+    string TERMINO = fecha.Day + "-" + fecha.Month + "-" + fecha.Year;
+
+    fecha = fecha.AddYears(-2);
+    string INICIO = fecha.Day + "-" + fecha.Month + "-" + fecha.Year;
+}
+
+<h2>Equipos con problemas en sus registros de horómetro y/o kilometraje</h2>
+<div class="table-responsive">
+    <table class="table">
+        <tr>
+            <th>
+                Número de AFI
+            </th>
+            <th class="col-sm-4"></th>
+        </tr>
+        @foreach (RentaMaq.Models.equipos Equipo in Equipos)
+        {
+            <tr>
+                <td>
+                    @(Equipo.numeroAFI)
+                </td>
+                <td>
+                    <a href="@Url.Action("Index", "registrokmhm", new { inicio = INICIO, termino = TERMINO, equipoID = Equipo.ID })">Ver Historial de Horómetro/Kilometraje</a>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+
+
+
+

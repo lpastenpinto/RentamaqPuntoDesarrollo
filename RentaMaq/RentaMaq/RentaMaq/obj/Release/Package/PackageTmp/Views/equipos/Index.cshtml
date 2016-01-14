@@ -1,0 +1,80 @@
+﻿@model IEnumerable<RentaMaq.Models.equipos> 
+
+@{
+    ViewBag.Title = "Índice";
+}
+
+<h2>Equipos</h2>
+
+<p>
+    @if (Session["ID"] != null && RentaMaq.Models.roles.tienePermiso(11, int.Parse(Session["ID"].ToString())))
+    {
+
+        @Html.ActionLink("Crear Nuevo", "Create")
+    }
+
+    
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.tipoEquipo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.patenteEquipo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.año)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.numeroAFI)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ModeloID)
+        </th>
+        <th>
+            Horómetro
+        </th>
+        <th>
+            Kilometraje
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.tipoEquipo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.patenteEquipo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.año)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.numeroAFI)
+        </td>
+        <td>
+            @(item.ModeloID.ModeloID + " - " + item.ModeloID.MarcaID.NombreMarca)
+        </td>
+        <td>
+            @RentaMaq.Models.equipos.obtenerUltimoHorometro(item.ID)
+        </td>
+        <td>
+            @RentaMaq.Models.equipos.obtenerUltimoKilometraje(item.ID)
+        </td>
+        <td>
+            @Html.ActionLink("Detalles", "Details", new { id = item.ID })
+            @if (Session["ID"] != null && RentaMaq.Models.roles.tienePermiso(11, int.Parse(Session["ID"].ToString())))
+            { 
+                <text>
+                | @Html.ActionLink("Editar", "Edit", new { id=item.ID }) |
+                @Html.ActionLink("Eliminar", "Delete", new { id=item.ID })
+                </text>
+            }            
+        </td>
+    </tr>
+}
+
+</table>

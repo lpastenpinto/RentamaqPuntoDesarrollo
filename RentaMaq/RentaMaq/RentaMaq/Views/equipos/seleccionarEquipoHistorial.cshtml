@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewBag.Title = "seleccionar equipo historial";
+    
+    DateTime fecha = DateTime.Now;
+
+    string HOY = fecha.Day + "/" + fecha.Month + "/" + fecha.Year;
+
+    fecha = fecha.AddMonths(-1);
+    
+    string UNMESATRAS = fecha.Day + "/" + fecha.Month + "/" + fecha.Year;
+}
+
+<div class="page-header">
+    <h2>Historial de Equipo <small>Selección de Equipo</small></h2>
+</div>
+<p>Por favor, seleccione un equipo y un rango de fechas para generar un reporte de historial de equipo:</p>
+<br />
+<br />
+<form class="form-horizontal" action="/equipos/Historial"  method="post">
+    <div class="form-group col-sm-6">
+        <label class="control-label col-sm-4">Equipo:</label>
+        @{
+            RentaMaq.DAL.Context db = new RentaMaq.DAL.Context();
+            List<RentaMaq.Models.equipos> Equipos = db.Equipos.ToList();
+        }
+        <div class="col-md-8">
+            <select class="form-control select2" name="equipoID">
+                @foreach (RentaMaq.Models.equipos Equipo in Equipos)
+                {
+                    <option value="@Equipo.ID">@Equipo.numeroAFI</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="form-group col-sm-6">
+        <label class="control-label col-sm-4">Fecha de Inicio:</label>
+        <div class="col-md-8">
+            <input class="form-control fecha" id="inicio" name="inicio"
+                   data-val-date="Ingrese por favor una fecha." data-val-required="El campo fecha es obligatorio."
+                   data-date-format="DD/MM/YYYY" pattern="[0-9][0-9]/[0-9][0-9]/[0-9][0-9][0-9][0-9]" value="@UNMESATRAS"
+                   type="text" required />
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="control-label col-sm-4">Fecha de Término:</label>
+        <div class="col-md-8">
+            <input class="form-control fecha" id="termino" name="termino"
+                   data-val-date="Ingrese por favor una fecha." data-val-required="El campo fecha es obligatorio."
+                   data-date-format="DD/MM/YYYY" pattern="[0-9][0-9]/[0-9][0-9]/[0-9][0-9][0-9][0-9]" value="@HOY"
+                   type="text" required />
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-lg btn-primary">Generar Reporte</button>
+    </div>
+</form>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Styles.Render("~/Content/bootstrap-datetimepicker.css")
+    @Scripts.Render("~/Scripts/datetimepicker/moment.js")
+    @Scripts.Render("~/Scripts/datetimepicker/bootstrap-datetimepicker.js")
+
+
+    <script>
+        $(document).ready(function () {
+            try {
+
+                $(".select2").select2({
+                    placeholder: "Seleccione un equipo"
+                });
+                console.log("aquí");
+            } catch (error) {
+                console.log(error);
+            }
+
+            $(".fecha").datetimepicker({
+                viewMode: 'days',
+                format: 'DD/MM/YYYY'
+            });
+        });
+    </script>
+}
